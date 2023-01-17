@@ -1,5 +1,5 @@
 <a name="readme-top"></a>
-
+<base target="_blank">
 <!-- PROJECT SHIELDS -->
 <!--
 *** I'm using markdown "reference style" links for readability.
