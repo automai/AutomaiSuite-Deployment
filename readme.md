@@ -106,16 +106,16 @@ Distributed under the GNU 3 License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact<a name="contact"></a>
 
-Automai Corporation - [@AutomaiCorp](https://twitter.com/AutomaiCorp) - []
+Automai Corporation - [@AutomaiCorp](https://twitter.com/AutomaiCorp)
 
-Project Link: [https://github.com/automai/AutomaiSuite-Deployment](https://github.com/automai/AutomaiSuite-Deployment)
+Project Link: [https://github.com/automai/AutomaiSuite-Deployment](https://github.com/automai/AutomaiSuite-Deployment){:target="_blank"}
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[license-url]: https://raw.githubusercontent.com/automai/AutomaiSuite-Deployment/main/LICENSE
+[license-url]: https://raw.githubusercontent.com/automai/AutomaiSuite-Deployment/main/LICENSE{:target="_blank"}
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/company/automai-corp/
+[linkedin-url]: https://www.linkedin.com/company/automai-corp/{:target="_blank"}
 [twitter-shield]: https://img.shields.io/badge/-twitter-black.svg?style=for-the-badge&logo=twitter&colorB=555
-[twitter-url]: https://twitter.com/AutomaiCorp
+[twitter-url]: https://twitter.com/AutomaiCorp{:target="_blank"}
