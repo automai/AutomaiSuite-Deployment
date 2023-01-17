@@ -106,9 +106,9 @@ Distributed under the GNU 3 License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact<a name="contact"></a>
 
-Automai Corporation - [@AutomaiCorp](https://twitter.com/AutomaiCorp)
+Automai Corporation - [@AutomaiCorp](https://twitter.com/AutomaiCorp){:target="_blank"}
 
-Project Link: [https://github.com/automai/AutomaiSuite-Deployment](https://github.com/automai/AutomaiSuite-Deployment){:target="_blank"}
+Project Link: [https://github.com/automai/AutomaiSuite-Deployment](https://github.com/automai/AutomaiSuite-Deployment)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
