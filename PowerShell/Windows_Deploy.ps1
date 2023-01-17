@@ -25,7 +25,7 @@ The name of the folder that will be created as a share for sessions to access
 The name of the share that all assets will be placed in
 .parameter logLocation 
 Log folder location, the log for the installation will be stored in C:\Temp unless changed
-.parameter dateForLogFilename 
+.parameter dateFormat 
 The current date and time to be displayed in the name of the log files in "yyyy-MM-dd_HH-mm" format
 .parameter shareUser 
 The user or group that will have write access to the share created
