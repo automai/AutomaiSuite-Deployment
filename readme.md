@@ -31,10 +31,16 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#about-the-project">About The Project</a></li>      
-    <li><a href="#getting-started">Getting Started</a></li>
-    <li><a href="#default-settings">Default Settings</a></li>
-    <li><a href="#settings-customisation">Customising Settings</a></li>
+    <il><a href="#about-the-project">About The Project</a></il>
+    <li><a href="#automai-server-deployment">Automai Management Server Deployment</a></li>   
+    <ul><a href="#getting-started">Getting Started</a></ul>
+    <ul><a href="#default-settings">Default Settings</a></ul>
+    <ul><a href="#settings-customisation">Customising Settings</a></ul>
+    <ul><a href="#license">License</a></ul>
+    <ul><a href="#contact">Contact</a></ul>
+    <li><a href="#automai-session-server-deployment">Automai Session Server Deployment</a></li>
+    <ul><a href="#asgetting-started">Getting Started</a></ul>
+    <ul><a href="#asdefault-settings">Default Settings</a></ul>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
@@ -47,7 +53,13 @@
 
 Automai Suite is a set of software tools that allow synthetic user testing and robotic process automation to be performed in a Windows environment. These tools are specifically addressing the end user computing industry.
 
+There are two scripts within the PowerShell folder:
+- Windows_Deploy.ps1 - This script will deploy an Automai Management Server on a Windows Server OS.
+- Session_Host-Deploy.ps1 - This script will deploy all required software and roles on Windows Server OS for the EUC test scenarios.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+##Automai Server Deployment<a name="automai-server-deployment"></a>
 
 <!-- GETTING STARTED -->
 ## Getting Started<a name="getting-started"></a>
@@ -93,6 +105,31 @@ _Below is an example of a command that can be run customising these parameters_
   This will create a folder in C:\Automai and share it with the share name of Automai with Everyone having modify access, logs will be stored in C:\Windows\Temp with the current year-month-day_hour-minute as the filename 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+##Session Server Deployment<a name="automai-session-server-deployment"></a>
+
+<!-- GETTING STARTED -->
+## Getting Started<a name="asgetting-started"></a>
+
+The only thing necessary to be able to deploy all applications to a session servers to work with the latest Automai EUC Workloads is in this repository. All that needs to be run is a single script which will handle everything else. Office, Chrome and MSEdge come directly from the vendors site, Firefox uses Chocolatey for its installation.
+
+Below is an example command you can run to kick off the process.
+
+```sh
+  Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/automai/AutomaiSuite-Deployment/main/PowerShell/Session_Host_Deploy.ps1'))
+  ```
+This command will automatically download the PowerShell script required and begin the installation process of all software.
+
+### Default Settings<a name="asdefault-settings"></a>
+By default the script ran with no paramaters in Getting Started will perform the following actions:
+1. Install the Windows Remote Desktop Services role
+2. Install Office 365 Apps in Shared Computer Activation Mode
+3. Install Google Chrome
+4. Install Mozilla FireFox
+5. Install Microsoft Edge Chromium
+7. Create log files for all actions in C:\Windows\Temp
+8. Prompt for log collection and will zip the logs up to be attached to a github issue later if there are any errors
+9. Prompt for a reboot after all actions are complete
 
 <!-- LICENSE -->
 ## License<a name="license"></a>
