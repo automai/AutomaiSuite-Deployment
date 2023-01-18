@@ -255,7 +255,7 @@ $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
 $title = "Machine reboot required"
 $message = "Changes have been made to your machine which require it to be rebooted, do you want to do this now?"
 [int]$result = $host.ui.PromptForChoice($title, $message, $options, 1)
-switch ($result1) {
+switch ($result) {
     0{
         Write-Log -Message "Machine reboot accepted" -Level Info
         Restart-Computer -Force
