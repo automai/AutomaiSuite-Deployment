@@ -57,7 +57,7 @@ There are two scripts within the PowerShell folder:
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-##Automai Server Deployment
+## Automai Server Deployment
 <a name="automai-server-deployment"></a>
 
 <!-- GETTING STARTED -->
@@ -105,7 +105,7 @@ _Below is an example of a command that can be run customising these parameters_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-##Session Server Deployment 
+## Session Server Deployment 
 <a name="automai-session-server-deployment"></a>
 
 <!-- GETTING STARTED -->
