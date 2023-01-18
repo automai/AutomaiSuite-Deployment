@@ -36,8 +36,6 @@
     <ul><a href="#getting-started">Getting Started</a></ul>
     <ul><a href="#default-settings">Default Settings</a></ul>
     <ul><a href="#settings-customisation">Customising Settings</a></ul>
-    <ul><a href="#license">License</a></ul>
-    <ul><a href="#contact">Contact</a></ul>
     <li><a href="#automai-session-server-deployment">Automai Session Server Deployment</a></li>
     <ul><a href="#asgetting-started">Getting Started</a></ul>
     <ul><a href="#asdefault-settings">Default Settings</a></ul>
@@ -143,7 +141,7 @@ Distributed under the GNU 3 License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact<a name="contact"></a>
 
-Automai Corporation - [@AutomaiCorp](https://twitter.com/AutomaiCorp){:target="_blank"}
+Automai Corporation - [@AutomaiCorp](https://twitter.com/AutomaiCorp)
 
 Project Link: [https://github.com/automai/AutomaiSuite-Deployment](https://github.com/automai/AutomaiSuite-Deployment)
 
