@@ -29,6 +29,8 @@ Log folder location, the log for the installation will be stored in C:\Temp unle
 The current date and time to be displayed in the name of the log files in "yyyy-MM-dd_HH-mm" format
 .parameter shareUser 
 The user or group that will have write access to the share created
+.parameter Unattend
+Specify this is the call for the script requires no user interaction and is included in automation
 
 .EXAMPLE
 & Windows_Deploy.ps1 -folderShare "C:\Automai" -shareName "Automai" -logLocation "C:\Windows\Temp" -dateFormat "yyyy-MM-dd_HH-mm" -shareUser "Everyone"
@@ -58,7 +60,10 @@ logs will be stored in C:\Windows\Temp with the current year-month-day_hour-minu
 
         [Parameter(Mandatory=$false, HelpMessage = "The user or group that will have write access to the share created")]
         [ValidateNotNullOrEmpty()]
-        $shareUser = "Everyone"
+        $shareUser = "Everyone",
+
+        [Parameter(Mandatory=$false, HelpMessage = "Specify if the script requires no user interaction and is included in automation")]
+        [switch]$Unattend
 )
 
 ## Fixed variables
@@ -138,6 +143,9 @@ Function Write-Log() {
 
 #Script start
 Write-Log -Message "### Script Start ###"
+
+#Output if unattended or not
+Write-Log -Message "Unattended mode is $Unattend" -Level Info
 
 #Check Windows OS
 try {
@@ -330,7 +338,7 @@ Write-Log -Message "Access Automai director by accessing http://$([System.Net.Dn
 Write-Log -Message "Username: admin - Password: automai" -Level Info
 
 #Gather logs if there was an error
-if ($error.count -gt 1) {
+if (($error.count -gt 1) -and (!($Unattend))) {
     #Show a dialog asking the user to gather logs
     $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
     $no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
@@ -359,18 +367,20 @@ if ($error.count -gt 1) {
 }
 
 #Machine reboot dialog
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
-$no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
-$title = "Machine reboot required"
-$message = "Changes have been made to your machine which require it to be rebooted, do you want to do this now?"
-$result = $host.ui.PromptForChoice($title, $message, $options, 1)
-switch ($result) {
-    0{
-        Write-Log -Message "Machine reboot accepted" -Level Info
-        Restart-Computer -Force
-    }1{
-        Write-Log -Message "Machine reboot skipped" -Level Warn
+if (!($Unattend)) {
+    $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
+    $no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
+    $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
+    $title = "Machine reboot required"
+    $message = "Changes have been made to your machine which require it to be rebooted, do you want to do this now?"
+    $result = $host.ui.PromptForChoice($title, $message, $options, 1)
+    switch ($result) {
+        0{
+            Write-Log -Message "Machine reboot accepted" -Level Info
+            Restart-Computer -Force
+        }1{
+            Write-Log -Message "Machine reboot skipped" -Level Warn
+        }
     }
 }
 
