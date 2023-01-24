@@ -22,6 +22,8 @@ You will be prompted to reboot your server at the end of the installation, it is
 Log folder location, the log for the installation will be stored in C:\Temp unless changed
 .parameter dateFormat 
 The current date and time to be displayed in the name of the log files in "yyyy-MM-dd_HH-mm" format
+.parameter Unattend
+Specify this is the call for the script requires no user interaction and is included in automation
 
 .EXAMPLE
 & Session_Host_Deploy.ps1
@@ -38,7 +40,10 @@ This will install chocolatey, the evergreen powershell module and perform all ne
 
         [Parameter(Mandatory=$false, HelpMessage = "The current date and time to be displayed in the name of the log files")]
         [ValidateNotNullOrEmpty()]
-        $dateFormat = "yyyy-MM-dd_HH-mm"
+        $dateFormat = "yyyy-MM-dd_HH-mm",
+
+        [Parameter(Mandatory=$false, HelpMessage = "Specify if the script requires no user interaction and is included in automation")]
+        [switch]$Unattend
 )
 
 ## Fixed variables
@@ -116,6 +121,10 @@ Function Write-Log() {
 
 #Script start
 Write-Log -Message "### Script Start ###"
+
+#Output if unattended or not
+##UnattendReplace##
+Write-Log -Message "Unattended mode is $Unattend" -Level Info
 
 #Check Windows OS
 try {
@@ -220,7 +229,7 @@ try {
 }
 
 #Gather logs if there was an error
-if ($error.count -gt 1) {
+if (($error.count -gt 1) -and (!($Unattend))) {
     #Show a dialog asking the user to gather logs
     $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
     $no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
@@ -249,18 +258,20 @@ if ($error.count -gt 1) {
 }
 
 #Machine reboot dialog
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
-$no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
-$title = "Machine reboot required"
-$message = "Changes have been made to your machine which require it to be rebooted, do you want to do this now?"
-[int]$result = $host.ui.PromptForChoice($title, $message, $options, 1)
-switch ($result) {
-    0{
-        Write-Log -Message "Machine reboot accepted" -Level Info
-        Restart-Computer -Force
-    }1{
-        Write-Log -Message "Machine reboot skipped" -Level Warn
+if (!($Unattend)) {
+    $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
+    $no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
+    $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
+    $title = "Machine reboot required"
+    $message = "Changes have been made to your machine which require it to be rebooted, do you want to do this now?"
+    [int]$result = $host.ui.PromptForChoice($title, $message, $options, 1)
+    switch ($result) {
+        0{
+            Write-Log -Message "Machine reboot accepted" -Level Info
+            Restart-Computer -Force
+        }1{
+            Write-Log -Message "Machine reboot skipped" -Level Warn
+        }
     }
 }
 
