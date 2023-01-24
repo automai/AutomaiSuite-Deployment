@@ -145,6 +145,7 @@ Function Write-Log() {
 Write-Log -Message "### Script Start ###"
 
 #Output if unattended or not
+##UnattendReplace##
 Write-Log -Message "Unattended mode is $Unattend" -Level Info
 
 #Check Windows OS
