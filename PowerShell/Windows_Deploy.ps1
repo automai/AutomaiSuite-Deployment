@@ -248,6 +248,7 @@ try {
                 Break
             }
             Start-Sleep -Seconds 10
+            Write-Log -Message "Waiting for 10 seconds before checking bot manager again" -Level Info
         } while (!(Get-Process "BotManager" -ErrorAction Ignore))
         
         #Wait for the service to start - 50 seconds
