@@ -273,6 +273,9 @@ if (!($Unattend)) {
             Write-Log -Message "Machine reboot skipped" -Level Warn
         }
     }
+} else {
+    #As we are in unattended mode, reboot the computer
+    Restart-Computer -Force
 }
 
 #Script stop
