@@ -1,5 +1,5 @@
 <Configuration ID="dcc1f399-c387-4eb6-9064-f6f6d0e86593">
-  <Add OfficeClientEdition="64" Channel="CurrentPreview">
+  <Add OfficeClientEdition="64" Channel="MonthlyEnterprise">
     <Product ID="O365ProPlusRetail">
       <Language ID="en-us" />
       <ExcludeApp ID="Groove" />
