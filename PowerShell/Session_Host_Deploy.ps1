@@ -124,7 +124,9 @@ Write-Log -Message "### Script Start ###"
 
 #Output if unattended or not
 ##UnattendReplace##
+##NoReboot##
 Write-Log -Message "Unattended mode is $Unattend" -Level Info
+Write-Log -Message "No reboot required is $noReboot" -Level Info
 
 #Check Windows OS
 try {
@@ -164,7 +166,9 @@ try {
 #Install chocolatey
 try {
     #Command line downloads and run the install script for chocolatey
+    Write-Log -Message "Installation of the Chocolatey started" -Level Info
     Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+    Write-Log -Message "Installation of the Chocolatey finished" -Level Info
 } catch {
     Write-Log -Message $_ -Level Error
     $transciptStopped = Stop-Transcript
@@ -175,7 +179,9 @@ Install-PackageProvider -Name NuGet -RequiredVersion 2.8.5.201 -Force
 
 #Install Evergreen Module#
 try {
+    Write-Log -Message "Installation of the Evergreen module started" -Level Info
     Install-Module -Name Evergreen -Force
+    Write-Log -Message "Installation of the Evergreen module finished" -Level Info
     Import-Module -Name Evergreen
 } catch {
     Write-Log -Message $_ -Level Error
@@ -192,14 +198,18 @@ try {
         Invoke-WebRequest -UseBasicParsing -Uri $officeXML -OutFile "$logLocation\Office.xml"
         Invoke-WebRequest -UseBasicParsing -Uri $app.URI -OutFile "$logLocation\Office_Setup.exe"
         #Run the office installer
+        Write-Log -Message "Installation of Office 365 started" -Level Info
         $installResult = Start-Process "$logLocation\Office_Setup.exe" "/configure $logLocation\Office.xml" -Wait -Passthru
+        Write-Log -Message "Installation of Office 365 completed" -Level Info
     } catch {
         Write-Log -Message "There has been an error installation of Office" -Level Error 
     }
 
     #Install Firefox
-    try {        
+    try {       
+        Write-Log -Message "Installation of firefox started" -Level Info 
         choco install firefoxesr /NoAutoUpdate /RemoveDistributionDir -y
+        Write-Log -Message "Installation of firefox completed" -Level Info
     } catch {
         Write-Log -Message "There has been an error installation Firefox" -Level Error 
     }
@@ -210,7 +220,9 @@ try {
         $app = Get-EvergreenApp -Name "GoogleChrome" | Where {($_.Channel -eq "stable") -and ($_.Architecture -eq "x86")} | sort version | Select -First 1
         Invoke-WebRequest -UseBasicParsing -Uri $app.URI -OutFile "$logLocation\Chrome_Setup.msi"
         #Run the office installer
+        Write-Log -Message "Installation of chrome started" -Level Info
         $installResult = Start-Process msiexec -argumentList "/i $logLocation\Chrome_Setup.msi ALLUSERS=1 NOGOOGLEUPDATEPING=1 /qn" -Wait -Passthru
+        Write-Log -Message "Installation of chrome finished" -Level Info
     } catch {
         Write-Log -Message "There has been an error installation of Chrome" -Level Error 
     }
@@ -221,7 +233,9 @@ try {
         $app = Get-EvergreenApp -Name "MicrosoftEdge" | Where {($_.Channel -eq "stable") -and ($_.Architecture -eq "x86")} | sort version | Select -First 1
         Invoke-WebRequest -UseBasicParsing -Uri $app.URI -OutFile "$logLocation\MSEdge.msi"
         #Run the office installer
+        Write-Log -Message "Installation of MSEdge started" -Level Info
         $installResult = Start-Process msiexec -argumentList "/i $logLocation\MSEdge.msi ALLUSERS=1 REBOOT=ReallySupress /qn" -Wait -Passthru
+        Write-Log -Message "Installation of MSEdge finished" -Level Info
     } catch {
         Write-Log -Message "There has been an error installation of Chrome" -Level Error 
     }
@@ -234,6 +248,7 @@ try {
 #Gather logs if there was an error
 if (($error.count -gt 1) -and (!($Unattend))) {
     #Show a dialog asking the user to gather logs
+    Write-Log -Message "Errors encountered - prompting user" -Level Info
     $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
     $no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
     $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
@@ -262,6 +277,7 @@ if (($error.count -gt 1) -and (!($Unattend))) {
 
 #Machine reboot dialog
 if (!($Unattend)) {
+    Write-Log -Message "Not unattended - prompting user for reboot" -Level Info
     $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
     $no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
     $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
@@ -278,7 +294,9 @@ if (!($Unattend)) {
     }
 } else {
     #As we are in unattended mode, reboot the computer
-    Restart-Computer -Force
+    if (!($noReboot)) {
+        Restart-Computer -Force
+    }
 }
 
 #Script stop
