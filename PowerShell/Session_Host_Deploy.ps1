@@ -170,7 +170,10 @@ try {
     $transciptStopped = Stop-Transcript
 }
 
-#Install Evergreen Module
+#Install NuGet Package Provider
+Install-PackageProvider -Name NuGet -RequiredVersion 2.8.5.201 -Force
+
+#Install Evergreen Module#
 try {
     Install-Module -Name Evergreen -Force
     Import-Module -Name Evergreen
