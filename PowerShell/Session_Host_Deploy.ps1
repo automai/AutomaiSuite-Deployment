@@ -208,7 +208,7 @@ try {
     #Install Firefox
     try {       
         Write-Log -Message "Installation of firefox started" -Level Info 
-        choco install firefoxesr /NoAutoUpdate /RemoveDistributionDir -y
+        $installResult = Start-Process choco -ArgumentList "install firefoxesr /NoAutoUpdate /RemoveDistributionDir -y" -Wait -PassThru
         Write-Log -Message "Installation of firefox completed" -Level Info
     } catch {
         Write-Log -Message "There has been an error installation Firefox" -Level Error 
