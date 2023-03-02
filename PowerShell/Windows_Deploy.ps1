@@ -166,12 +166,12 @@ try {
 #Install the Windows Terminal Services Role
 try {
     #Check if terminal services is already installed
-    $checkResult = Get-WindowsFeature Remote-Desktop-Services -Verbose
+    $checkResult = Get-WindowsFeature rds-rd-server -Verbose
 
     #If the role is already installed, proceed, otherwise; install it
     if ($checkResult.InstallState -eq "Available") {
         Write-Log -Message "The windows terminal services role is not currently installed, proceeding to install it" -Level Info
-        $checkResult = Install-WindowsFeature Remote-Desktop-Services -IncludeManagementTools
+        $checkResult = Install-WindowsFeature rds-rd-server -IncludeManagementTools
         if (!($checkResult.ExitCode -eq "Success")) {
             Throw "Error installing Terminal Services"
         }
