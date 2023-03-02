@@ -7,7 +7,7 @@ Downloads and installs the Citrix Workspace App
 Log files and versbose loggging is present as the script runs. To review logs either use the console or view the
 log files in C:\Windows\Temp or your custom log folder location.
 .NOTES
-Can be used in automation sequences to install the Citrix Workspace App
+
 .parameter logLocation 
 Log folder location, the log for the installation will be stored in C:\Temp unless changed
 .parameter dateFormat 
