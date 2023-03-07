@@ -172,7 +172,7 @@ try {
     if ($checkResult.InstallState -eq "Available") {
         Write-Log -Message "The windows terminal services role is not currently installed, proceeding to install it" -Level Info
         $checkResult = Install-WindowsFeature rds-rd-server -IncludeManagementTools
-        if if (!($checkResult.ExitCode -eq "SuccessRestartRequired")) {
+        if (!($checkResult.ExitCode -eq "SuccessRestartRequired")) {
             Throw "Error installing Terminal Services"
         }
     } else {
