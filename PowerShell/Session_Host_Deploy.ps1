@@ -137,6 +137,7 @@ Write-Log -Message "### Script Start ###"
 Write-Log -Message "Unattended mode is $Unattend" -Level Info
 Write-Log -Message "No reboot required is $noReboot" -Level Info
 Write-Log -Message "Scenario Builder install is $SBInstall" -Level Info
+Write-Log -Message "Director server supplied as $directorServer" -Level Info
 
 #Check Windows OS
 try {
