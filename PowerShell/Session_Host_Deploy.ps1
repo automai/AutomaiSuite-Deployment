@@ -272,6 +272,7 @@ try {
             #Check inno extract
             if (Test-Path "$logLocation\innoextract.exe") {
                 Write-Log -Message "Inno extractor downloaded successfully" -Level Info
+                Set-Location $logLocation
                 Start-Process -FilePath "$logLocation\innoextract.exe" -ArgumentList "$logLocation\AutomaiSuite_$($dateForLogFileName).exe" -Wait
                 if (Test-Path "$logLocation\tmp\SBSetup.exe") {
                     if ($directorServer) {
