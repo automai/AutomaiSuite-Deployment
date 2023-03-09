@@ -272,12 +272,12 @@ try {
             #Check inno extract
             if (Test-Path "$logLocation\innoextract.exe") {
                 Write-Log -Message "Inno extractor downloaded successfully" -Level Info
-                Start-Process -FilePath "$logLocation\innoextract.exe" -ArgumentList "$logLocation\AutomaiSuite_$($dateForLogFileName).exe"
+                Start-Process -FilePath "$logLocation\innoextract.exe" -ArgumentList "$logLocation\AutomaiSuite_$($dateForLogFileName).exe" -Wait
                 if (Test-Path "$logLocation\tmp\SBSetup.exe") {
                     if ($directorServer) {
-                        Start-Process -FilePath "$logLocation\tmp\SBSetup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /BASE=$directorServer /PORT=8888 /LOG=$logLocation\SB_Setup_Log.log"
+                        Start-Process -FilePath "$logLocation\tmp\SBSetup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /BASE=$directorServer /PORT=8888 /LOG=$logLocation\SB_Setup_Log.log" -Wait
                     } else {6
-                        Start-Process -FilePath "$logLocation\tmp\SBSetup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /LOG=$logLocation\SB_Setup_Log.log"
+                        Start-Process -FilePath "$logLocation\tmp\SBSetup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /LOG=$logLocation\SB_Setup_Log.log" -Wait
                     }
                 } else {
                     Write-Log -Message "Scenario Builder could not be extracted from the Automai Suite download, Scenario Builder will not be installed" -Level Error

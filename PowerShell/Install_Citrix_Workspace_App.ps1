@@ -123,7 +123,7 @@ try {
 #Install Chrome
     try {        
         #Get the latest Citrix Workspace app
-        $app = Get-EvergreenApp -Name "CitrixWorkspaceApp" | Where {($_.Stream -eq "Current") -and ($_.Title -match "Workspace")}
+        $app = Get-EvergreenApp -Name "CitrixWorkspaceApp" | Where-Object {($_.Stream -eq "Current") -and ($_.Title -match "Workspace")}
         Invoke-WebRequest -UseBasicParsing -Uri $app.URI -OutFile "$logLocation\CitrixWorkspaceApp.exe"
         #Run the Workspace App Installer
         Write-Log -Message "Installation of Citrix Workspace App started" -Level Info
