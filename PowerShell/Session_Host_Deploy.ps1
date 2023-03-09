@@ -24,6 +24,8 @@ Log folder location, the log for the installation will be stored in C:\Temp unle
 The current date and time to be displayed in the name of the log files in "yyyy-MM-dd_HH-mm" format
 .parameter Unattend
 Specify this is the call for the script requires no user interaction and is included in automation
+.parameter SBInstall
+Specify if Scenario Builder should be downloaded and installed
 
 .EXAMPLE
 & Session_Host_Deploy.ps1
@@ -43,10 +45,15 @@ This will install chocolatey, the evergreen powershell module and perform all ne
         $dateFormat = "yyyy-MM-dd_HH-mm",
 
         [Parameter(Mandatory=$false, HelpMessage = "Specify if the script requires no user interaction and is included in automation")]
-        [switch]$Unattend
+        [switch]$Unattend,
+
+        [Parameter(Mandatory=$false, HelpMessage = "Specify if Scenario Builder should be downloaded and installed")]
+        [switch]$SBInstall
 )
 
 ## Fixed variables
+$automaiDownload = "https://atmrap.s3.us-east-2.amazonaws.com/installers/testing/23.1.1/AutomaiSuite.exe"
+$innoExtractor = "https://raw.githubusercontent.com/automai/AutomaiSuite-Deployment/main/Assets/innoextract.exe"
 $officeXML = "https://raw.githubusercontent.com/automai/AutomaiSuite-Deployment/main/Assets/Office.xml"
 $DateForLogFileName = $(Get-Date -Format $dateFormat)
 
@@ -125,8 +132,11 @@ Write-Log -Message "### Script Start ###"
 #Output if unattended or not
 ##UnattendReplace##
 ##NoReboot##
+##SBInstall##
+##DirectorServer##
 Write-Log -Message "Unattended mode is $Unattend" -Level Info
 Write-Log -Message "No reboot required is $noReboot" -Level Info
+Write-Log -Message "Scenario Builder install is $SBInstall" -Level Info
 
 #Check Windows OS
 try {
@@ -240,6 +250,45 @@ try {
         Write-Log -Message "There has been an error installation of Chrome" -Level Error 
     }
 
+} catch {
+    Write-Log -Message $_ -Level Error
+    $transciptStopped = Stop-Transcript
+}
+
+#Automai Scenario Builder Installation
+try {
+    if ($SBInstall) {
+        #Download the latest software
+        Write-Log -Message "Attempting to download Automai Suite for installation" -Level Info
+        Invoke-WebRequest -UseBasicParsing -Uri $automaiDownload -OutFile "$logLocation\AutomaiSuite_$($dateForLogFileName).exe"
+        if (Test-Path "$logLocation\AutomaiSuite_$($dateForLogFileName).exe") {
+            Write-Log -Message "AutomaiSuite software download completed successfully" -Level Info
+            
+            #Download Inno Extractor to extract the setup files for individual components
+            Write-Log -Message "Attempting to download inno extractor" -Level Info
+            Invoke-WebRequest -UseBasicParsing -Uri $innoExtractor -OutFile "$logLocation\innoextract.exe"
+                        
+            #Check inno extract
+            if (Test-Path "$logLocation\innoextract.exe") {
+                Write-Log -Message "Inno extractor downloaded successfully" -Level Info
+                Start-Process -FilePath "$logLocation\innoextract.exe" -ArgumentList "$logLocation\AutomaiSuite_$($dateForLogFileName).exe"
+                if (Test-Path "$logLocation\tmp\SBSetup.exe") {
+                    if ($directorServer) {
+                        Start-Process -FilePath "$logLocation\tmp\SBSetup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /BASE=$directorServer /PORT=8888 /LOG=$logLocation\SB_Setup_Log.log"
+                    } else {6
+                        Start-Process -FilePath "$logLocation\tmp\SBSetup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /LOG=$logLocation\SB_Setup_Log.log"
+                    }
+                } else {
+                    Write-Log -Message "Scenario Builder could not be extracted from the Automai Suite download, Scenario Builder will not be installed" -Level Error
+                }
+            } else {
+                Write-Log -Message "Inno extractor could not be downloaded and Scenario Builder will not be installed" -Level Error
+            }
+        }
+    } else {
+        Write-Log -Message "Software failed to download successfully, please check the download link and try again" -Level Error
+        Throw "Software failed to download successfully, please check the download link and try again"
+    }
 } catch {
     Write-Log -Message $_ -Level Error
     $transciptStopped = Stop-Transcript
