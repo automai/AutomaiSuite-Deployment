@@ -69,7 +69,7 @@ logs will be stored in C:\Windows\Temp with the current year-month-day_hour-minu
 ## Fixed variables
 $automaiDownload = "https://atmrap.s3.us-east-2.amazonaws.com/installers/testing/23.1.1/AutomaiSuite.exe"
 $assetsDownload = "https://github.com/automai/AutomaiSuite-Deployment/raw/main/Assets/Share_Data.zip"
-$workloadsDownload = "https://github.com/automai/AutomaiSuite-Deployment/raw/main/Assets/EUC_Workloads.zip"
+$workloadsDownload = "https://github.com/automai/AutomaiSuite-EUCScenarios/raw/main/EUC%20Workloads.zip"
 $DateForLogFileName = $(Get-Date -Format $dateFormat)
 
 #Start a transcript of the script output
