@@ -1,3 +1,4 @@
+#Requires -RunAsAdministrator
 <#
 .SYNOPSIS
 Deploys all required applications for Automai workloads on a Windows Server OS
@@ -34,7 +35,6 @@ This will install chocolatey, the evergreen powershell module and perform all ne
 #>
 
 ## Environment specific variables which can be edited here or passed in the command line
-#Requires -RunAsAdministrator
 
 [CmdletBinding()]
     param (

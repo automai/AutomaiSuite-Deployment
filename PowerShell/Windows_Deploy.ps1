@@ -1,3 +1,4 @@
+#Requires -RunAsAdministrator
 <#
 .SYNOPSIS
 Deploys Automai software on a Windows Server OS
@@ -40,7 +41,6 @@ logs will be stored in C:\Windows\Temp with the current year-month-day_hour-minu
 #>
 
 ## Environment specific variables which can be edited here or passed in the command line
-#Requires -RunAsAdministrator
 
 [CmdletBinding()]
     param (
