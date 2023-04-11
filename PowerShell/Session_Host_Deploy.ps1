@@ -133,10 +133,16 @@ Write-Log -Message "### Script Start ###"
 #Check Administrative PowerShell 
 Write-Log -Message "Checking Administrative PowerShell Launch" -Level Info
 if ($Host.UI.RawUI.WindowTitle -notmatch "Administrator") {
-    Write-Log "Please run PowerShell as an administrator and try again" -Level Error
+    Write-Log "Please make sure your PowerShell instance is running as administrator or the script may fail" -Level Warn
     Start-Sleep -Seconds 2
-    Break
 }
+if (([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { 
+    Write-Log -Message "User is an admin on this machine, proceeding." -Level info
+} else {
+    Write-Log -Message "User is NOT an admin on this machine, please run as an admin or the script may fail" -Level Warn
+    Start-Sleep -Seconds 2
+}
+
 
 #Output if unattended or not
 ##UnattendReplace##
