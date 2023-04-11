@@ -40,6 +40,8 @@ logs will be stored in C:\Windows\Temp with the current year-month-day_hour-minu
 #>
 
 ## Environment specific variables which can be edited here or passed in the command line
+#Requires -RunAsAdministrator
+
 [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false, HelpMessage = "The name of the folder that will be created as a share for sessions to access")]

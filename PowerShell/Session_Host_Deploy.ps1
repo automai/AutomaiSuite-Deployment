@@ -34,6 +34,8 @@ This will install chocolatey, the evergreen powershell module and perform all ne
 #>
 
 ## Environment specific variables which can be edited here or passed in the command line
+#Requires -RunAsAdministrator
+
 [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false, HelpMessage = "Log folder location, the log for the installation will be stored in C:\Temp unless changed")]
