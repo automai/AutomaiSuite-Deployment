@@ -305,7 +305,7 @@ if (($error.count -gt 1) -and (!($Unattend))) {
     $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
     $title = "Automai Log Collection"
     $message = "Some errors were detected during install, would you like to collect all the installation logs to be analysed later?"
-    [int]$result = $host.ui.PromptForChoice($title, $message, $options, 1) | Get-Member
+    [int]$result = $host.ui.PromptForChoice($title, $message, $options, 1)
         
     switch ($result) {
         0{
