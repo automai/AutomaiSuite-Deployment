@@ -243,7 +243,7 @@ try {
         #Get the latest MSEdge version
         $app = Get-EvergreenApp -Name "MicrosoftEdge" | Where {($_.Channel -eq "stable") -and ($_.Architecture -eq "x86")} | sort version | Select -First 1
         Invoke-WebRequest -UseBasicParsing -Uri $app.URI -OutFile "$logLocation\MSEdge.msi"
-        #Run the office installer
+        #Run the edge installer
         Write-Log -Message "Installation of MSEdge started" -Level Info
         $installResult = Start-Process msiexec -argumentList "/i $logLocation\MSEdge.msi ALLUSERS=1 REBOOT=ReallySupress /qn" -Wait -Passthru
         Write-Log -Message "Installation of MSEdge finished" -Level Info
