@@ -1,4 +1,3 @@
-#Requires -RunAsAdministrator
 <#
 .SYNOPSIS
 Deploys all required applications for Automai workloads on a Windows Server OS
@@ -130,6 +129,14 @@ Function Write-Log() {
 
 #Script start
 Write-Log -Message "### Script Start ###"
+
+#Check Administrative PowerShell 
+Write-Log -Message "Checking Administrative PowerShell Launch" -Level Info
+if ($Host.UI.RawUI.WindowTitle -notmatch "Administrator") {
+    Write-Log "Please run PowerShell as an administrator and try again" -Level Error
+    Start-Sleep -Seconds 2
+    Exit
+}
 
 #Output if unattended or not
 ##UnattendReplace##
