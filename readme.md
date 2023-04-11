@@ -55,6 +55,8 @@ There are two scripts within the PowerShell folder:
 - Windows_Deploy.ps1 - This script will deploy an Automai Management Server on a Windows Server OS.
 - Session_Host-Deploy.ps1 - This script will deploy all required software and roles on Windows Server OS for the EUC test scenarios.
 
+ **ALL SCRIPTS MUST BE RUN FROM AN ADMINISTRATIVE POWERSHELL INSTANCE**
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Automai Server Deployment
