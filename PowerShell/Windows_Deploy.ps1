@@ -150,7 +150,7 @@ Write-Log -Message "Checking Administrative PowerShell Launch" -Level Info
 if ($Host.UI.RawUI.WindowTitle -notmatch "Administrator") {
     Write-Log "Please run PowerShell as an administrator and try again" -Level Error
     Start-Sleep -Seconds 2
-    Exit
+    Break
 }
 
 #Output if unattended or not
