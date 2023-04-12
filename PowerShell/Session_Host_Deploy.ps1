@@ -49,7 +49,7 @@ This will install chocolatey, the evergreen powershell module and perform all ne
         [switch]$Unattend,
 
         [Parameter(Mandatory=$false, HelpMessage = "Specify if Scenario Builder should be downloaded and installed")]
-        [switch]$SBInstall
+        [switch]$SBInstall=$true
 )
 
 ## Fixed variables
