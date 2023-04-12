@@ -303,8 +303,7 @@ try {
             }
         }
     } else {
-        Write-Log -Message "Software failed to download successfully, please check the download link and try again" -Level Error
-        Throw "Software failed to download successfully, please check the download link and try again"
+        Throw "Automai Software failed to download successfully, please check the download link and try again"
     }
 } catch {
     Write-Log -Message $_ -Level Error

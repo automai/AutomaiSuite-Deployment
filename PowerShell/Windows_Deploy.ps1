@@ -282,8 +282,7 @@ try {
             Throw "Error installing Automai Suite, please review the log in $logLocation\Automai_Setup_Log.log"
         }
     } else {
-        Write-Log -Message "Software failed to download successfully, please check the download link and try again" -Level Error
-        Throw "Software failed to download successfully, please check the download link and try again"
+        Throw "Automai Software failed to download successfully, please check the download link and try again"
     }
 } catch {
     Write-Log -Message $_ -Level Error
