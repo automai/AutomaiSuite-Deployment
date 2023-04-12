@@ -301,9 +301,11 @@ try {
             } else {
                 Write-Log -Message "Inno extractor could not be downloaded and Scenario Builder will not be installed" -Level Error
             }
+        } else {
+            Throw "Automai Software failed to download successfully, please check the download link and try again"
         }
     } else {
-        Throw "Automai Software failed to download successfully, please check the download link and try again"
+        Write-Log -Message "Scenario Builder installation skipped due to the flag `$SBInstall being set to false" -Level Info
     }
 } catch {
     Write-Log -Message $_ -Level Error
