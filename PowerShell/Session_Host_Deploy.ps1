@@ -49,12 +49,17 @@ This will install chocolatey, the evergreen powershell module and perform all ne
         [switch]$Unattend,
 
         [Parameter(Mandatory=$false, HelpMessage = "Specify if Scenario Builder should be downloaded and installed")]
-        [switch]$SBInstall=$true
+        [switch]$SBInstall=$true,
+
+        [Parameter(Mandatory=$false, HelpMessage = "Specify the director server for Scenario Builder to connect to")]
+        $directorServer,
+
+        [Parameter(Mandatory=$false, HelpMessage = "Specify the director server port for Scenario Builder to connect to")]
+        $directorPort="8888"
 )
 
 ## Fixed variables
-$automaiDownload = "https://atmrap.s3.us-east-2.amazonaws.com/installers/testing/23.1.1/AutomaiSuite.exe"
-$innoExtractor = "https://raw.githubusercontent.com/automai/AutomaiSuite-Deployment/main/Assets/innoextract.exe"
+$scenarioBuilderSetup = "https://atmrap.s3.us-east-2.amazonaws.com/installers/SBSetup.exe"
 $officeXML = "https://raw.githubusercontent.com/automai/AutomaiSuite-Deployment/main/Assets/Office.xml"
 $DateForLogFileName = $(Get-Date -Format $dateFormat)
 
@@ -275,34 +280,22 @@ try {
 try {
     if ($SBInstall) {
         #Download the latest software
-        Write-Log -Message "Attempting to download Automai Suite for installation" -Level Info
-        Invoke-WebRequest -UseBasicParsing -Uri $automaiDownload -OutFile "$logLocation\AutomaiSuite_$($dateForLogFileName).exe"
-        if (Test-Path "$logLocation\AutomaiSuite_$($dateForLogFileName).exe") {
-            Write-Log -Message "AutomaiSuite software download completed successfully" -Level Info
-            
-            #Download Inno Extractor to extract the setup files for individual components
-            Write-Log -Message "Attempting to download inno extractor" -Level Info
-            Invoke-WebRequest -UseBasicParsing -Uri $innoExtractor -OutFile "$logLocation\innoextract.exe"
-                        
-            #Check inno extract
-            if (Test-Path "$logLocation\innoextract.exe") {
-                Write-Log -Message "Inno extractor downloaded successfully" -Level Info
-                Set-Location $logLocation
-                Start-Process -FilePath "$logLocation\innoextract.exe" -ArgumentList "$logLocation\AutomaiSuite_$($dateForLogFileName).exe" -Wait
-                if (Test-Path "$logLocation\tmp\SBSetup.exe") {
-                    if ($directorServer) {
-                        Start-Process -FilePath "$logLocation\tmp\SBSetup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /BASE=$directorServer /PORT=8888 /LOG=$logLocation\SB_Setup_Log.log" -Wait
-                    } else {6
-                        Start-Process -FilePath "$logLocation\tmp\SBSetup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /LOG=$logLocation\SB_Setup_Log.log" -Wait
-                    }
+        Write-Log -Message "Attempting to download Scenario Builder for installation" -Level Info
+        Invoke-WebRequest -UseBasicParsing -Uri $scenarioBuilderSetup -OutFile "$logLocation\SBSetup_$($dateForLogFileName).exe"
+        if (Test-Path "$logLocation\SBSetup_$($dateForLogFileName).exe") {
+            Write-Log -Message "Scenario Builder software download completed successfully" -Level Info
+            if (Test-Path "$logLocation\SBSetup_$($dateForLogFileName).exe") {
+                if ($directorServer) {
+                    Start-Process -FilePath "$logLocation\SBSetup_$($dateForLogFileName).exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /BASE=$directorServer /PORT=$directorPort /LOG=$logLocation\SB_Setup_Log.log" -Wait
                 } else {
-                    Write-Log -Message "Scenario Builder could not be extracted from the Automai Suite download, Scenario Builder will not be installed" -Level Error
+                    Start-Process -FilePath "$logLocation\SBSetup_$($dateForLogFileName).exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /LOG=$logLocation\SB_Setup_Log.log" -Wait
                 }
+                    Write-Log -Message "Scenario Builder installed successfully" -Level Info
             } else {
-                Write-Log -Message "Inno extractor could not be downloaded and Scenario Builder will not be installed" -Level Error
-            }
+                Write-Log -Message "Scenario Builder could not be extracted from the Automai Suite download, Scenario Builder will not be installed" -Level Error
+            }            
         } else {
-            Throw "Automai Software failed to download successfully, please check the download link and try again"
+            Throw "Scenario Builder Software failed to download successfully, please check the download link and try again"
         }
     } else {
         Write-Log -Message "Scenario Builder installation skipped due to the flag `$SBInstall being set to false" -Level Info
