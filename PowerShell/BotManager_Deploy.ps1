@@ -47,6 +47,10 @@ the current year-month-day_hour-minute as the filename
         [ValidateNotNullOrEmpty()]
         $directorServer,
 
+        [Parameter(Mandatory=$true, HelpMessage = "The Director Server to port used for BotManager Communication")]
+        [ValidateNotNullOrEmpty()]
+        $directorServerPort="8888",
+
         [Parameter(Mandatory=$true, HelpMessage = "The user to create for AutoLogon")]
         [ValidateNotNullOrEmpty()]
         $autologonUser,
@@ -54,10 +58,6 @@ the current year-month-day_hour-minute as the filename
         [Parameter(Mandatory=$true, HelpMessage = "The password for the AutoLogon user")]
         [ValidateNotNullOrEmpty()]
         $autoLogonPassword,
-        
-        [Parameter(Mandatory=$true, HelpMessage = "The Director Server to port used for BotManager Communication")]
-        [ValidateNotNullOrEmpty()]
-        $directorServerPort="8888",
 
         [Parameter(Mandatory=$false, HelpMessage = "Specify if the script requires no user interaction and is included in automation")]
         [switch]$Unattend
