@@ -46,8 +46,16 @@ the current year-month-day_hour-minute as the filename
         [Parameter(Mandatory=$true, HelpMessage = "The Director Server to join the BotManager")]
         [ValidateNotNullOrEmpty()]
         $directorServer,
+
+        [Parameter(Mandatory=$true, HelpMessage = "The user to create for AutoLogon")]
+        [ValidateNotNullOrEmpty()]
+        $autologonUser,
+
+        [Parameter(Mandatory=$true, HelpMessage = "The password for the AutoLogon user")]
+        [ValidateNotNullOrEmpty()]
+        $autoLogonPassword,
         
-        [Parameter(Mandatory=$false, HelpMessage = "The Director Server to port used for BotManager Communication")]
+        [Parameter(Mandatory=$true, HelpMessage = "The Director Server to port used for BotManager Communication")]
         [ValidateNotNullOrEmpty()]
         $directorServerPort="8888",
 
@@ -190,7 +198,7 @@ try {
     Invoke-WebRequest -UseBasicParsing -Uri $automaiDownload -OutFile "$logLocation\BotManagerSetup_$($dateForLogFileName).exe"
     if (Test-Path "$logLocation\BotManagerSetup_$($dateForLogFileName).exe") {
         Write-Log -Message "BotManager software download completed successfully" -Level Info
-        Start-Process .\BotManagerSetup.exe -ArgumentList "/VERYSILENT  /SUPPRESSMSGBOXES  /BASE=$directorServer  /PORT=$directorServerPort /USERNAME=administrator  /PASS=P@ssword"
+        Start-Process "$logLocation\BotManagerSetup_$($dateForLogFileName).exe" -ArgumentList "/VERYSILENT  /SUPPRESSMSGBOXES  /BASE=$directorServer  /PORT=$directorServerPort /USERNAME=$autologonUser  /PASS=$autoLogonPassword"
         
         #Check if BotManager is running
         do {
