@@ -23,7 +23,16 @@ Log folder location, the log for the installation will be stored in C:\Temp unle
 The current date and time to be displayed in the name of the log files in "yyyy-MM-dd_HH-mm" format
 .parameter Unattend
 Specify this is the call for the script requires no user interaction and is included in automation
-
+.parameter directorServer
+Specify the Director Server that should be connected to
+.parameter directorServerPort
+Specify the port that BotManager should connect on - by default 8888
+.parameter directorServerPort
+Specify the port that BotManager should connect on - by default 8888
+.parameter autologonUser
+Specify the username for the account that will automatically logon to windows after reboot
+.parameter autoLogonPassword
+Specify the password for the user account used for AutoLogon
 .EXAMPLE
 & Windows_Deploy.ps1 -logLocation "C:\Windows\Temp" -dateFormat "yyyy-MM-dd_HH-mm"
 
@@ -68,7 +77,7 @@ $automaiDownload = "https://atmrap.s3.us-east-2.amazonaws.com/installers/BotMana
 $DateForLogFileName = $(Get-Date -Format $dateFormat)
 
 #Start a transcript of the script output
-$transcriptRunning = Start-Transcript -Path "$logLocation\automai_transcript_$($DateForLogFileName).log"
+$transcriptRunning = Start-Transcript -Path "$logLocation\botmanager_transcript_$($DateForLogFileName).log"
 
 #Function for log file creation
 Function Write-Log() {
@@ -97,7 +106,7 @@ Function Write-Log() {
     Process
     {
         # append the date to the $path variable. It will also append .log at the end
-        $logLocation = $logLocation + "\automai_install_" + $DateForLogFileName+".log"
+        $logLocation = $logLocation + "\botmanager_install_" + $DateForLogFileName+".log"
 
         # If attempting to write to a log file in a folder/path that doesn't exist create the file including the path.
         If (!(Test-Path $logLocation)) {

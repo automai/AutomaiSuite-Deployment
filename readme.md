@@ -39,6 +39,8 @@
     <li><a href="#automai-session-server-deployment">Automai Session Server Deployment</a></li>
     <ul><a href="#asgetting-started">Getting Started</a></ul>
     <ul><a href="#asdefault-settings">Default Settings</a></ul>
+    <li><a href="#automai-botmanager-deployment">Automai BotManager Deployment</a></li>
+    <ul><a href="#bmdefault-settings">Default Settings</a></ul>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
@@ -51,9 +53,10 @@
 
 Automai Suite is a set of software tools that allow synthetic user testing and robotic process automation to be performed in a Windows environment. These tools are specifically addressing the end user computing industry.
 
-There are two scripts within the PowerShell folder:
+There are three scripts within the PowerShell folder:
 - Windows_Deploy.ps1 - This script will deploy an Automai Management Server on a Windows Server OS.
-- Session_Host-Deploy.ps1 - This script will deploy all required software and roles on Windows Server OS for the EUC test scenarios.
+- Session_Hos_Deploy.ps1 - This script will deploy all required software and roles on Windows Server OS for the EUC test scenarios.
+- BotManager_Deploy.ps1 - This script will deploy just the BotManager component of the automai suite.
 
  **ALL SCRIPTS MUST BE RUN FROM AN ADMINISTRATIVE POWERSHELL INSTANCE**
 
@@ -65,7 +68,7 @@ There are two scripts within the PowerShell folder:
 <!-- GETTING STARTED -->
 ## Getting Started<a name="getting-started"></a>
 
-All files necessary to deploy an Automai server with all components are stored in this repository. All that is needed to get started is the following command in an administrative PowerShell window on a Windows Server OS (2012 R2 or above).
+All files necessary to deploy an Automai server with all components are stored in this repository. All that is needed to get started is the following command in an administrative PowerShell window on a Windows Server OS (2016 or above).
 
 ```sh
   Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/automai/AutomaiSuite-Deployment/main/PowerShell/Windows_Deploy.ps1'))
@@ -132,6 +135,35 @@ By default the script ran with no paramaters in Getting Started will perform the
 7. Create log files for all actions in C:\Windows\Temp
 8. Prompt for log collection and will zip the logs up to be attached to a github issue later if there are any errors
 9. Prompt for a reboot after all actions are complete
+
+## Automai BotManager Deployment
+<a name="automai-BotManager-deployment"></a>
+
+<!-- GETTING STARTED -->
+## Getting Started<a name="bmgetting-started"></a>
+
+All files necessary to deploy an Automai BotManager are stored in this repository. All that is needed to get started is the following commands in an administrative PowerShell window on a Windows Server OS (2016 or above).
+
+```sh
+  Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/automai/AutomaiSuite-Deployment/main/PowerShell/BotManager_Deploy.ps1'))| Out-File "$($env:temp)\BotManager_Deploy.ps1"; & "$($env:temp)\BotManager_Deploy.ps1"
+  ```
+
+This command will automatically download the PowerShell script required and begin the installation process of all components. You will be prompted for specific variables.
+
+You will need to supply:
+- The name/IP of your Director Server
+- The port Director uses to communicate (8888) by default
+- The name of a location local to setup as an autologon account
+- The password for the autologon account
+
+### Default Settings<a name="bmdefault-settings"></a>
+By default the script has to have the relevant parameters supplied to be able to run, the following actions will be performed:
+1. Download the BotManager installer
+2. Install BotManager with the provided parameters
+3. Configure Windows Registry with AutoLogon Details
+4. Share the C:\Automai folder for "Everyone" to have modify access
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- LICENSE -->
 ## License<a name="license"></a>
