@@ -62,6 +62,10 @@ logs will be stored in C:\Windows\Temp with the current year-month-day_hour-minu
         [Parameter(Mandatory=$false, HelpMessage = "The user or group that will have write access to the share created")]
         [ValidateNotNullOrEmpty()]
         $shareUser = "Everyone",
+        
+        [Parameter(Mandatory=$false, HelpMessage = "The user or group that will have write access to the share created")]
+        [ValidateNotNullOrEmpty()]
+        $shareUser2 = "Domain Users",
 
         [Parameter(Mandatory=$false, HelpMessage = "Specify if the script requires no user interaction and is included in automation")]
         [switch]$Unattend
@@ -238,7 +242,10 @@ try {
     #Check the current access list and amend it
     $ACL = Get-Acl -Path $FolderShare
     $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($shareUser,"Modify","Allow")
+    $accessRule2 = New-Object System.Security.AccessControl.FileSystemAccessRule($shareUser2,"Modify","Allow")
     $ACL.SetAccessRule($accessRule)
+    $ACL | Set-Acl -Path $folderShare
+    $ACL.SetAccessRule($accessRule2)
     $ACL | Set-Acl -Path $folderShare
     Write-Log -Message "Successfully applied security permissions on $($folderShare)" -Level Info
 } catch {
@@ -324,25 +331,25 @@ try {
 }
 
 #Copy workloads into ScenarioBuilder
-try {
-    if (Test-Path "$($folderShare)\EUC Workloads") {
-        Write-Log -Message "Workloads are complete and ready to be installed" -Level Info
-        #Check ScenarioBuilder folder before copy
-        if (!(Test-Path "$($env:userprofile)\Documents\ScenarioBuilder")) {
-            Write-Log -Message "ScenarioBuilder folder does not exist, creating it" -Level Info
-            New-Item -ItemType Directory -Path "$($env:userprofile)\Documents\ScenarioBuilder" -Force | Out-Null
-        }
-        Write-Log -Message "Copying Scenarios into ScenarioBuilder" -Level Info
-        Copy-Item -Path "$($folderShare)\EUC Workloads" -Destination "$($env:userprofile)\Documents\ScenarioBuilder" -Recurse -Force
-        Write-Log -Message "Scenarios copied successfully" -Level Info
-    } else {
-        Write-Log -Message "There is an issue with the EUC Workloads zip file and it is not complete or corrupted, contact automai support" -Level Error
-        Throw "There is an issue with the EUC Workloads zip file and it is not complete or corrupted, contact automai support"
-    }
-} catch {
-    Write-Log -Message $_ -Level Error
-    $transciptStopped = Stop-Transcript
-}
+# try {
+#     if (Test-Path "$($folderShare)\EUC Workloads") {
+#         Write-Log -Message "Workloads are complete and ready to be installed" -Level Info
+#         #Check ScenarioBuilder folder before copy
+#         if (!(Test-Path "$($env:userprofile)\Documents\ScenarioBuilder")) {
+#             Write-Log -Message "ScenarioBuilder folder does not exist, creating it" -Level Info
+#             New-Item -ItemType Directory -Path "$($env:userprofile)\Documents\ScenarioBuilder" -Force | Out-Null
+#         }
+#         Write-Log -Message "Copying Scenarios into ScenarioBuilder" -Level Info
+#         Copy-Item -Path "$($folderShare)\EUC Workloads" -Destination "$($env:userprofile)\Documents\ScenarioBuilder" -Recurse -Force
+#         Write-Log -Message "Scenarios copied successfully" -Level Info
+#     } else {
+#         Write-Log -Message "There is an issue with the EUC Workloads zip file and it is not complete or corrupted, contact automai support" -Level Error
+#         Throw "There is an issue with the EUC Workloads zip file and it is not complete or corrupted, contact automai support"
+#     }
+# } catch {
+#     Write-Log -Message $_ -Level Error
+#     $transciptStopped = Stop-Transcript
+# }
 
 #Output the relevant information to login
 Write-Log -Message "NOTE THIS INFORMATION TO PROCEED AND GET STARTED" -Level Info  
