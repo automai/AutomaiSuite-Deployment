@@ -30,8 +30,8 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <il><a href="#about-the-project">About The Project</a></il>
-    <ul><a href="#getting-started-videos">Getting Started Videos</a></ul>
+    <il><a href="#about-the-project">About The Project</a></il><br>
+    <il><a href="#getting-started-videos">Getting Started Videos</a><il>
     <li><a href="#automai-server-deployment">Automai Management Server Deployment</a></li>   
     <ul><a href="#getting-started">Getting Started</a></ul>
     <ul><a href="#default-settings">Default Settings</a></ul>
