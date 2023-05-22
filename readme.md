@@ -64,10 +64,10 @@ There are three scripts within the PowerShell folder:
 
 ## Getting Started Videos
 <a name="getting-started-videos"></a>
-There are several YouTube videos available which will walk you through the process of setting up an Automai PoC environment.
-<a href="https://www.youtube.com/watch?v=K4TD_PXHlOc" target="_blank">Automai Product Installation</a>
-<a href="https://www.youtube.com/watch?v=l2iCA6Sc_68" target="_blank">Automai Product Licensing</a>
-<a href="https://www.youtube.com/watch?v=mjC3qP4jypQ" target="_blank">Automai Workloads and Configuration</a>
+<p>There are several YouTube videos available which will walk you through the process of setting up an Automai PoC environment.</p>
+<a href="https://www.youtube.com/watch?v=K4TD_PXHlOc" target="_blank">Automai Product Installation</a><br>
+<a href="https://www.youtube.com/watch?v=l2iCA6Sc_68" target="_blank">Automai Product Licensing</a><br>
+<a href="https://www.youtube.com/watch?v=mjC3qP4jypQ" target="_blank">Automai Workloads and Configuration</a><br>
 
 ## Automai Server Deployment
 <a name="automai-server-deployment"></a>
