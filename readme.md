@@ -26,12 +26,12 @@
 </div>
 
 
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <il><a href="#about-the-project">About The Project</a></il>
+    <il><a href="#about-the-project">About The Project</a></il><br>
+    <il><a href="#getting-started-videos">Getting Started Videos</a><il>
     <li><a href="#automai-server-deployment">Automai Management Server Deployment</a></li>   
     <ul><a href="#getting-started">Getting Started</a></ul>
     <ul><a href="#default-settings">Default Settings</a></ul>
@@ -61,6 +61,13 @@ There are three scripts within the PowerShell folder:
  **ALL SCRIPTS MUST BE RUN FROM AN ADMINISTRATIVE POWERSHELL INSTANCE**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Getting Started Videos
+<a name="getting-started-videos"></a>
+<p>There are several YouTube videos available which will walk you through the process of setting up an Automai PoC environment.</p>
+<a href="https://www.youtube.com/watch?v=K4TD_PXHlOc" target="_blank">Automai Product Installation</a><br>
+<a href="https://www.youtube.com/watch?v=l2iCA6Sc_68" target="_blank">Automai Product Licensing</a><br>
+<a href="https://www.youtube.com/watch?v=mjC3qP4jypQ" target="_blank">Automai Workloads and Configuration</a><br>
 
 ## Automai Server Deployment
 <a name="automai-server-deployment"></a>
