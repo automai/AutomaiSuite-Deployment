@@ -78,7 +78,7 @@ There are three scripts within the PowerShell folder:
 All files necessary to deploy an Automai server with all components are stored in this repository. All that is needed to get started is the following command in an administrative PowerShell window on a Windows Server OS (2016 or above).
 
 ```sh
-  Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/automai/AutomaiSuite-Deployment/main/PowerShell/Windows_Deploy.ps1'))
+  Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/automai/AutomaiSuite-Deployment/main/PowerShell/Director_Deploy.ps1'))
   ```
 This command will automatically download the PowerShell script required and begin the installation process of all components.
 
