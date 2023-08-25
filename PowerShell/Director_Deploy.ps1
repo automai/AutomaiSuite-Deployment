@@ -260,34 +260,8 @@ try {
     Invoke-WebRequest -UseBasicParsing -Uri $automaiDownload -OutFile "$logLocation\AutomaiSuite_$($dateForLogFileName).exe"
     if (Test-Path "$logLocation\AutomaiSuite_$($dateForLogFileName).exe") {
         Write-Log -Message "AutomaiSuite software download completed successfully" -Level Info
-        Start-Process -FilePath "$logLocation\AutomaiSuite_$($dateForLogFileName).exe" -ArgumentList "/VERYSILENT /LOG=$logLocation\Automai_Setup_Log.log /FORCECLOSEAPPLICATIONS"
-        #Check if BotManager is running
-        do {
-            if (Get-Process "BotManager" -ErrorAction Ignore) {
-                Get-Process "BotManager" | Stop-Process -Force
-                Write-Log -Message "BotManager found running, killing the process so the setup can proceed" -Level Info
-                Break
-            }
-            Start-Sleep -Seconds 10
-            Write-Log -Message "Waiting for 10 seconds before checking bot manager again" -Level Info
-        } while (!(Get-Process "BotManager" -ErrorAction Ignore))
-        
-        #Wait for the service to start - 50 seconds
-        $loop = 5
-        do {
-            $loop--
-            Start-Sleep -Seconds 10
-            if ($(Get-Service -Name "Automai BotManager").Status -eq "Running") {
-                Write-Log -Message "Automai Suite installed successfully" -Level Info
-                break
-            }
-        } while ($loop -gt 0)
-        
-        #If the loop expired there was an issue installing
-        if ($loop -eq 0) {
-            Write-Log -Message "Error installing Automai Suite, please review the log in $logLocation\Automai_Setup_Log.log" -Level Info
-            Throw "Error installing Automai Suite, please review the log in $logLocation\Automai_Setup_Log.log"
-        }
+        $tempProcess = Start-Process -FilePath "$logLocation\AutomaiSuite_$($dateForLogFileName).exe" -ArgumentList "/VERYSILENT /LOG=$logLocation\Automai_Setup_Log.log /FORCECLOSEAPPLICATIONS" -PassThru
+        Wait-Process -Id $tempProcess.Id
     } else {
         Throw "Automai Software failed to download successfully, please check the download link and try again"
     }
