@@ -244,9 +244,9 @@ try {
     $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($shareUser,"Modify","Allow")
     $accessRule2 = New-Object System.Security.AccessControl.FileSystemAccessRule($shareUser2,"Modify","Allow")
     $ACL.SetAccessRule($accessRule)
-    $ACL | Set-Acl -Path $folderShare
+    $ACL | Set-Acl -Path $folderShare -ErrorAction SilentlyContinue
     $ACL.SetAccessRule($accessRule2)
-    $ACL | Set-Acl -Path $folderShare
+    $ACL | Set-Acl -Path $folderShare -ErrorAction SilentlyContinue
     Write-Log -Message "Successfully applied security permissions on $($folderShare)" -Level Info
 } catch {
     Write-Log -Message $_ -Level Error
