@@ -60,11 +60,11 @@ the current year-month-day_hour-minute as the filename
         [ValidateNotNullOrEmpty()]
         $directorServerPort="8888",
 
-        [Parameter(Mandatory=$true, HelpMessage = "The user to create for AutoLogon")]
+        [Parameter(Mandatory=$false, HelpMessage = "The user to create for AutoLogon")]
         [ValidateNotNullOrEmpty()]
         $autologonUser,
 
-        [Parameter(Mandatory=$true, HelpMessage = "The password for the AutoLogon user")]
+        [Parameter(Mandatory=$false, HelpMessage = "The password for the AutoLogon user")]
         [ValidateNotNullOrEmpty()]
         $autoLogonPassword,
 
