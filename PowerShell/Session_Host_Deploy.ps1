@@ -248,7 +248,7 @@ try {
     #Install Chrome
     try {        
         #Get the latest Chrome version
-        $app = Get-EvergreenApp -Name "GoogleChrome" | Where {($_.Channel -eq "stable") -and ($_.Architecture -eq "x86")} | sort version | Select -First 1
+        $app = Get-EvergreenApp -Name "GoogleChrome" | Where {($_.Channel -eq "stable") -and ($_.Architecture -eq "x64")} | sort version | Select -First 1
         Invoke-WebRequest -UseBasicParsing -Uri $app.URI -OutFile "$logLocation\Chrome_Setup.msi"
         #Run the office installer
         Write-Log -Message "Installation of chrome started" -Level Info
