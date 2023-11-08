@@ -29,10 +29,12 @@ Specify the Director Server that should be connected to
 Specify the port that BotManager should connect on - by default 8888
 .parameter directorServerPort
 Specify the port that BotManager should connect on - by default 8888
-.parameter autologonUser
-Specify the username for the account that will automatically logon to windows after reboot
-.parameter autoLogonPassword
-Specify the password for the user account used for AutoLogon
+.parameter launcherUser
+Specify the username for the account that will launch remote user sessions, by default its set to SYSTEM
+.parameter launcherPassword
+Specify the password for the account that will launch remote user sessions
+.parameter launcherDomain
+Specify the domain for the account that will launch remote user sessions
 .EXAMPLE
 & Windows_Deploy.ps1 -logLocation "C:\Windows\Temp" -dateFormat "yyyy-MM-dd_HH-mm"
 
@@ -60,13 +62,14 @@ the current year-month-day_hour-minute as the filename
         [ValidateNotNullOrEmpty()]
         $directorServerPort="8888",
 
-        [Parameter(Mandatory=$false, HelpMessage = "The user to create for AutoLogon")]
-        [ValidateNotNullOrEmpty()]
-        $autologonUser,
+        [Parameter(Mandatory=$false, HelpMessage = "Specify the username for the account that will launch remote user sessions, by default its set to SYSTEM")]
+        $launcherUser,
 
-        [Parameter(Mandatory=$false, HelpMessage = "The password for the AutoLogon user")]
-        [ValidateNotNullOrEmpty()]
-        $autoLogonPassword,
+        [Parameter(Mandatory=$false, HelpMessage = "Specify the password for the account that will launch remote user sessions")]
+        $launcherPassword,
+
+        [Parameter(Mandatory=$false, HelpMessage = "Specify the domain for the account that will launch remote user sessions")]
+        $launcherDomain,
 
         [Parameter(Mandatory=$false, HelpMessage = "Specify if the script requires no user interaction and is included in automation")]
         [switch]$Unattend
@@ -207,7 +210,11 @@ try {
     Invoke-WebRequest -UseBasicParsing -Uri $automaiDownload -OutFile "$logLocation\BotManagerSetup_$($dateForLogFileName).exe"
     if (Test-Path "$logLocation\BotManagerSetup_$($dateForLogFileName).exe") {
         Write-Log -Message "BotManager software download completed successfully" -Level Info
-        Start-Process "$logLocation\BotManagerSetup_$($dateForLogFileName).exe" -ArgumentList "/VERYSILENT  /SUPPRESSMSGBOXES  /BASE=$directorServer  /PORT=$directorServerPort /USERNAME=$autologonUser  /PASS=$autoLogonPassword"
+        if (-not [String]::IsNullOrEmpty($launcherUser)) {
+            Start-Process "$logLocation\BotManagerSetup_$($dateForLogFileName).exe" -ArgumentList "/VERYSILENT  /SUPPRESSMSGBOXES  /BASE=$directorServer  /PORT=$directorServerPort /LUSER=$laucnherUser  /LPASS=$launcherPassword /LDOMAIN=$launcherDomain"
+        } else {
+            Start-Process "$logLocation\BotManagerSetup_$($dateForLogFileName).exe" -ArgumentList "/VERYSILENT  /SUPPRESSMSGBOXES  /BASE=$directorServer  /PORT=$directorServerPort"
+        }
         
         #Check if BotManager is running
         do {
