@@ -211,7 +211,7 @@ try {
     if (Test-Path "$logLocation\BotManagerSetup_$($dateForLogFileName).exe") {
         Write-Log -Message "BotManager software download completed successfully" -Level Info
         if (-not [String]::IsNullOrEmpty($launcherUser)) {
-            Start-Process "$logLocation\BotManagerSetup_$($dateForLogFileName).exe" -ArgumentList "/VERYSILENT  /SUPPRESSMSGBOXES  /BASE=$directorServer  /PORT=$directorServerPort /LUSER=$laucnherUser  /LPASS=$launcherPassword /LDOMAIN=$launcherDomain"
+            Start-Process "$logLocation\BotManagerSetup_$($dateForLogFileName).exe" -ArgumentList "/VERYSILENT  /SUPPRESSMSGBOXES  /BASE=$directorServer  /PORT=$directorServerPort /LUSER=$launcherUser  /LPASS=$launcherPassword /LDOMAIN=$launcherDomain"
         } else {
             Start-Process "$logLocation\BotManagerSetup_$($dateForLogFileName).exe" -ArgumentList "/VERYSILENT  /SUPPRESSMSGBOXES  /BASE=$directorServer  /PORT=$directorServerPort"
         }
