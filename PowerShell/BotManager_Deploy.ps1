@@ -211,8 +211,10 @@ try {
     if (Test-Path "$logLocation\BotManagerSetup_$($dateForLogFileName).exe") {
         Write-Log -Message "BotManager software download completed successfully" -Level Info
         if (-not [String]::IsNullOrEmpty($launcherUser)) {
+            Write-Log -Message "Starting BotManager installation with launcher user - $launcherUser, password - ***** and domain, $launcherDomain" -Level Info
             Start-Process "$logLocation\BotManagerSetup_$($dateForLogFileName).exe" -ArgumentList "/VERYSILENT  /SUPPRESSMSGBOXES  /BASE=$directorServer  /PORT=$directorServerPort /LUSER=$launcherUser  /LPASS=$launcherPassword /LDOMAIN=$launcherDomain"
         } else {
+            Write-Log -Message "Starting BotManager installation without launcher user being specified, the rloader sessions will be headless" -Level Info
             Start-Process "$logLocation\BotManagerSetup_$($dateForLogFileName).exe" -ArgumentList "/VERYSILENT  /SUPPRESSMSGBOXES  /BASE=$directorServer  /PORT=$directorServerPort"
         }
         
